@@ -20,6 +20,8 @@
 
 <script>
 import ListThumbnail from '@/components/views/Home/ListThumbnail.vue'
+import savedLists from '@/mock/savedLists.json'
+
 export default {
   name: 'Home',
   components: {
@@ -27,82 +29,7 @@ export default {
   },
   data () {
     return {
-      savedLists: [
-        {
-          title: 'animals/foods',
-          entries: [
-            {
-              value: 'cats',
-              wins: 0
-            },
-            {
-              value: 'dogs',
-              wins: 0
-            },
-            {
-              value: 'snakes',
-              wins: 0
-            },
-            {
-              value: 'pickles',
-              wins: 0
-            }
-          ]
-        },
-        {
-          title: 'colors',
-          entries: [
-            {
-              value: 'orange',
-              wins: 0
-            },
-            {
-              value: 'yellow',
-              wins: 0
-            },
-            {
-              value: 'blue',
-              wins: 0
-            },
-            {
-              value: 'green',
-              wins: 0
-            },
-            {
-              value: 'orange',
-              wins: 0
-            },
-            {
-              value: 'yellow',
-              wins: 0
-            },
-            {
-              value: 'blue',
-              wins: 0
-            },
-            {
-              value: 'green',
-              wins: 0
-            },
-            {
-              value: 'orange',
-              wins: 0
-            },
-            {
-              value: 'yellow',
-              wins: 0
-            },
-            {
-              value: 'blue',
-              wins: 0
-            },
-            {
-              value: 'green',
-              wins: 0
-            }
-          ]
-        }
-      ]
+      savedLists
     }
   }
 }

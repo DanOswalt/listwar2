@@ -1,0 +1,101 @@
+[
+  {
+    "title": "These things",
+    "entries": [
+      {
+        "value": "trees",
+        "wins": 0
+      },
+      {
+        "value": "bushes",
+        "wins": 0
+      },
+      {
+        "value": "hedges",
+        "wins": 0
+      },
+      {
+        "value": "flowers",
+        "wins": 0
+      }
+    ]
+  },
+  {
+    "title": "Colors",
+    "entries": [
+      {
+        "value": "green",
+        "wins": 0
+      },
+      {
+        "value": "pink",
+        "wins": 0
+      },
+      {
+        "value": "orange",
+        "wins": 0
+      },
+      {
+        "value": "red",
+        "wins": 0
+      },
+      {
+        "value": "teal",
+        "wins": 0
+      },
+      {
+        "value": "yellow",
+        "wins": 0
+      },
+      {
+        "value": "blue",
+        "wins": 0
+      },
+      {
+        "value": "black",
+        "wins": 0
+      },
+      {
+        "value": "grey",
+        "wins": 0
+      },
+      {
+        "value": "white",
+        "wins": 0
+      },
+      {
+        "value": "beige",
+        "wins": 0
+      },
+      {
+        "value": "teal",
+        "wins": 0
+      }
+    ]
+  },
+  {
+    "title": "Awesome LIst",
+    "entries": [
+      {
+        "value": "borgs",
+        "wins": 0
+      },
+      {
+        "value": "bligs",
+        "wins": 0
+      },
+      {
+        "value": "smoks",
+        "wins": 0
+      },
+      {
+        "value": "foos",
+        "wins": 0
+      },
+      {
+        "value": "splugs",
+        "wins": 0
+      }
+    ]
+  }
+]
