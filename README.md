@@ -28,8 +28,9 @@
 class List = {
   id : docId,
   creator : user_id
-  created : date,
-  finished : date,
+  createdOn : date,
+  completedOn : date,
+  completed : bool,
   entries : [
     { 
       val : string,
@@ -41,7 +42,6 @@ class List = {
     [ id, id ]
   ],
   lastBattle : int, [index in battle order]
-  completed : bool
 }
 
 
