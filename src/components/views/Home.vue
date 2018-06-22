@@ -6,14 +6,16 @@
     <section class="saved-lists container">
       <!-- list thumbnail cards -->
       <div class="row">
-        <ul class="list-thumbnails">
+        <ul v-if="savedLists" class="list-thumbnails">
           <li v-for="(list, index) in savedLists" :key="index">
             <div class="col s12 m6">
               <ListThumbnail :list='list'/>
             </div>
           </li>
         </ul>
+        <div v-else>Create a list</div>
       </div>
+      <router-link to="/createlist" class="btn-floating btn-large indigo pulse"><i class="material-icons">add</i></router-link>
     </section>
   </div>
 </template>
@@ -29,7 +31,7 @@ export default {
   },
   data () {
     return {
-      savedLists
+      savedLists: null
     }
   }
 }
