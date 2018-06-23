@@ -15,8 +15,8 @@
         </ul>
         <div v-else>Create a list</div>
       </div>
-      <router-link to="/createlist" class="btn-floating btn-large indigo pulse"><i class="material-icons">add</i></router-link>
     </section>
+    <router-link to="/createlist" class="createlist-btn btn-floating btn-large indigo pulse"><i class="material-icons">add</i></router-link>
   </div>
 </template>
 
@@ -31,14 +31,24 @@ export default {
   },
   data () {
     return {
-      savedLists: null
+      savedLists
     }
   }
 }
 </script>
 
 <style lang="css">
+  .home {
+    height: 100vh;
+  }
+
   .home .thumbnail {
-    cursor: pointer
+    cursor: pointer;
+  }
+
+  .createlist-btn {
+    position: fixed;
+    bottom: 2em;
+    right: 2em;
   }
 </style>
