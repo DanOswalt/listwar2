@@ -4,19 +4,28 @@
       <h3 class="center-align">Create a new list</h3>
     </header>
     <div class="row">
-      <form @submit.prevent="addEntry" class="col s8 offset-s2">
+      <form @submit.prevent="addEntry" class="col s12 m6 offset-m3">
         <div class="row">
           <div class="input-field">
-            <input type="text" id="entry" v-model="newEntry" autofocus>
-            <label for="entry">Enter items</label>
+            <input id="entryInput"
+                   type="text"
+                   @keydown.tab.prevent="addEntry"
+                   v-model="newEntry"
+                   autofocus>
+            <label for="entry">Enter new item</label>
           </div>
         </div>
         <div class="row">
-          <ul class="entries-list collection">
+          <div class="col s12">
+            <p>{{ entries.length }} items = {{ this.battlecount }} battles</p>
+          </div>
+        </div>
+        <div class="row">
+          <ul v-show="entries.length > 0" class="entries-list collection">
             <li v-for="(entry, index) in entries"
                 :key="index"
                 class="collection-item">{{ entry }}
-                <i @click="removeEntry(index)" class="material-icons red-text right remove">remove_circle_outline</i>
+                <i @click="removeEntry(index)" class="material-icons right remove">highlight_off</i>
             </li>
           </ul>
         </div>
@@ -34,12 +43,17 @@ export default {
       entries: []
     }
   },
+  computed: {
+    battlecount () {
+      return this.entries.length
+    }
+  },
   methods: {
-    addEntry: function () {
+    addEntry () {
       this.entries.push(this.newEntry)
       this.newEntry = ''
     },
-    removeEntry: function (index) {
+    removeEntry (index) {
       this.entries.splice(index, 1)
     }
   }
