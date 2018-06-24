@@ -17,7 +17,7 @@
         </div>
         <div class="row">
           <div class="col s12">
-            <p>{{ entries.length }} items = {{ this.battlecount }} battles</p>
+            <p>{{ entries.length }} items = {{ this.battleCount }} battles</p>
           </div>
         </div>
         <div class="row">
@@ -44,8 +44,15 @@ export default {
     }
   },
   computed: {
-    battlecount () {
+    entriesCount () {
       return this.entries.length
+    },
+    battleCount () {
+      let count = 0
+      for (let i = 0; i < this.entriesCount; i++) {
+        count += i
+      }
+      return count
     }
   },
   methods: {
@@ -65,3 +72,27 @@ export default {
     cursor: pointer;
   }
 </style>
+
+/*
+  notes
+
+  -do validation
+    -strings must be unique
+    -strings must be trimmed
+    -strings must be non-blank
+    -must have at least 4 items
+    -limit to 10-12 items?
+
+  -on submit
+    -ask for title after clicking submit
+    -create list object
+    -need a list class (proper place for this?)
+    -attach new list object to user
+    -new list will be accessible via url by anyone with link :username/:listname
+
+  -change route to include userid param
+    -pass as prop or route param?
+
+  -styles
+    -punch up with css transitions
+ */
