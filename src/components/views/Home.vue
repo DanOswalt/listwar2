@@ -23,6 +23,7 @@
 <script>
 import ListThumbnail from '@/components/views/Home/ListThumbnail.vue'
 import savedLists from '@/mock/savedLists.json'
+import db from '@/firebase/init.js'
 
 export default {
   name: 'Home',
@@ -33,6 +34,20 @@ export default {
     return {
       savedLists
     }
+  },
+  created () {
+    console.log(db)
+    // db.collection('users').add({
+    //   first: 'Ada',
+    //   last: 'Lovelace',
+    //   born: 1815
+    // })
+    //   .then(function (docRef) {
+    //     console.log('Document written with ID: ', docRef.id)
+    //   })
+    //   .catch(function (error) {
+    //     console.error('Error adding document: ', error)
+    //   })
   }
 }
 </script>
