@@ -81,6 +81,9 @@ export default {
       }
       return count
     },
+    entryIsUnique () {
+      return !this.entries.includes(this.newEntry)
+    },
     entryClasses () {
       return {
         teal: this.entriesSubmitted,
@@ -92,7 +95,8 @@ export default {
   },
   methods: {
     addEntry () {
-      if (this.newEntry) {
+      this.newEntry = this.newEntry.trim()
+      if (this.newEntry && this.entryIsUnique) {
         this.entries.push(this.newEntry)
         this.newEntry = ''
       }
