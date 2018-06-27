@@ -1,10 +1,10 @@
 <template lang="html">
   <div class="thumbnail">
-    <div class="card blue-grey darken-1">
-      <div class="card-content white-text">
+    <div class="card white">
+      <div class="card-content teal-text text-darken-4">
         <span class="card-title center">{{ list.title }}</span>
         <ul class="list-entries collection">
-          <li class="list-entry collection-item blue-grey-text darken-2" v-for="(entry, index) in list.entries" :key="index">{{ entry.value }}</li>
+          <li class="list-entry collection-item white-text teal" v-for="(entry, index) in list.entries" :key="index">{{ entry.value }}</li>
         </ul>
       </div>
     </div>
@@ -24,4 +24,8 @@ export default {
 </script>
 
 <style lang="css">
+
+  .thumbnail .collection {
+    border-radius: 10px;
+  }
 </style>
