@@ -23,7 +23,7 @@
 <script>
 import ListThumbnail from '@/components/views/Home/ListThumbnail.vue'
 import savedLists from '@/mock/savedLists.json'
-import db from '@/firebase/init.js'
+import firebase from 'firebase'
 
 export default {
   name: 'Home',
@@ -35,30 +35,8 @@ export default {
       savedLists
     }
   },
-  created () {
-    console.log(db)
-
-    /* when  hitting home, allow anon user to be created,
-       this user can create a personal list, but has to log in to share or save
-
-      1. on home component creation, see if a session cookie is present?
-      2. if cookie is there, log into firebase auth
-      3. else, create a new anon user? or a generic anonymous/createlist route
-      4. when submitting form, you give it a title
-      5. then the list object is attached to the user
-    */
-
-    // db.collection('users').add({
-    //   first: 'Ada',
-    //   last: 'Lovelace',
-    //   born: 1815
-    // })
-    //   .then(function (docRef) {
-    //     console.log('Document written with ID: ', docRef.id)
-    //   })
-    //   .catch(function (error) {
-    //     console.error('Error adding document: ', error)
-    //   })
+  mounted () {
+    console.log(firebase.auth().currentUser)
   }
 }
 </script>
