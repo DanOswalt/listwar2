@@ -60,10 +60,13 @@
 </template>
 
 <script>
+import db from '@/firebase/init'
+
 export default {
   name: 'CreateList',
   data () {
     return {
+      user_id: this.$route.params.user_id,
       newEntry: '',
       title: '',
       entries: [],
@@ -109,7 +112,20 @@ export default {
       this.$nextTick(() => this.$refs.title.focus()) // this works, but why exactly?
     },
     createList () {
-      console.log(this.title, this.entries)
+      db.collection('lists').doc()
+        .set({
+          title: this.title,
+          entries: this.entries,
+          createdOn: new Date(),
+          creator_id: this.user_id
+        })
+        .then(() => {
+          // redirect to home
+          this.$router.push({ name: 'Home' })
+        })
+        .catch(err => {
+          console.log(err.message)
+        })
     }
   }
 }
