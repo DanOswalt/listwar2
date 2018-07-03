@@ -4,8 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import firebase from 'firebase'
+import moment from 'moment'
 
 Vue.config.productionTip = false
+
+Vue.prototype.moment = moment
 
 let app = null
 
