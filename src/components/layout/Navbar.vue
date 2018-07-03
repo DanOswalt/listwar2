@@ -1,6 +1,6 @@
 <template lang="html">
   <nav>
-    <div class="nav-wrapper orange darken-4">
+    <div class="nav-wrapper deep-orange lighten-1">
       <router-link to="/" class="brand-logo">ListWar</router-link>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><router-link :to="{ name: 'Register' }">Sign Up</router-link></li>

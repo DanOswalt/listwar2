@@ -1,8 +1,9 @@
 <template lang="html">
   <div class="thumbnail">
     <div class="card white">
-      <div class="card-content teal-text text-darken-4">
-        <span class="card-title center">{{ list.title }}</span>
+      <div class="card-content grey-text text-darken-3">
+        <h5 class="card-title center">{{ list.title }}</h5>
+        <pre class="center-align grey-text">created by <span class="orange-text text-darken-4">{{ username }}</span> <span class="grey-text">{{ moment(list.createdOn).fromNow() }}</span></pre>
         <ul class="list-entries collection">
           <li class="list-entry collection-item white-text teal" v-for="(entry, index) in list.entries" :key="index">{{ entry }}</li>
         </ul>
@@ -15,7 +16,9 @@
 export default {
   name: 'ListThumbnail',
   props: [
-    'list'
+    'list',
+    'username',
+    'createdon'
   ],
   data () {
     return {}

@@ -66,7 +66,7 @@ export default {
   name: 'CreateList',
   data () {
     return {
-      user_id: this.$route.params.user_id,
+      userId: this.$route.params.userId,
       newEntry: '',
       title: '',
       entries: [],
@@ -112,12 +112,14 @@ export default {
       this.$nextTick(() => this.$refs.title.focus()) // this works, but why exactly?
     },
     createList () {
+      const timestamp = new Date()
+
       db.collection('lists').doc()
         .set({
           title: this.title,
           entries: this.entries,
-          createdOn: new Date(),
-          creator_id: this.user_id
+          createdOn: timestamp.getTime(),
+          creatorId: this.userId
         })
         .then(() => {
           // redirect to home
