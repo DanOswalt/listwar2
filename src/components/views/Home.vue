@@ -1,19 +1,19 @@
 <template lang="html">
   <div class="home container">
     <header class="row">
-      <h3 class="center grey-text text-darken-2">{{ user.username }}'s lists</h3>
-      <div class="col s10 offset-s2 m8 offset-m3 l6 offset-l4">
-        <blockquote>
-          <ul class="grey-text">
-            <li><span class="description deep-orange-text">Create</span> a list of things.</li>
-            <li><span class="description deep-orange-text">Battle</span> those things 1 v 1.</li>
-            <li><span class="description deep-orange-text">Discover</span>  the true pecking order.</li>
-            <li><span class="description teal-text darken-2">Share and compare.</span></li>     
-          </ul> 
-        </blockquote>
-      </div>
+      <h3 v-if="user" class="center grey-text text-darken-2">{{ user.username }}'s lists</h3>
     </header>
-    <section class="row saved-lists container">
+    <aside class="description-box show-on-large">
+      <blockquote>
+        <ul class="grey-text">
+          <li><span class="description deep-orange-text">Create</span> a list of things.</li>
+          <li><span class="description deep-orange-text">Battle</span> those things 1 v 1.</li>
+          <li><span class="description deep-orange-text">Discover</span>  the true pecking order.</li>
+          <li><span class="description teal-text darken-2">Share and compare.</span></li>
+        </ul>
+      </blockquote>
+    </aside>
+    <section class="row container">
       <!-- list thumbnail cards -->
       <div class="row">
         <ul v-if="user.lists && user.lists.length > 0 " class="list-thumbnails">
@@ -26,7 +26,7 @@
         <div v-else>Create a list</div>
       </div>
     </section>
-    <router-link :to="{ name: 'CreateList', params: { userId: user.userId } }" class="createlist-btn btn-floating btn-large orange darken-4" :class="{ pulse: !user.lists }"><i class="material-icons">add</i></router-link>
+    <router-link :to="{ name: 'CreateList', params: { userId: user.userId } }" class="createlist-btn btn-floating btn-large orange darken-4" :class="{ pulse: noLists }"><i class="material-icons">add</i></router-link>
   </div>
 </template>
 
@@ -42,8 +42,13 @@ export default {
   },
   data () {
     return {
-      user: 'null'
+      user: null
     }
+  },
+  computed: {
+    // noLists () {
+    //   return this.user && this.user.lists.length > 0
+    // }
   },
   mounted () {
     let authUser = firebase.auth().currentUser
@@ -58,10 +63,11 @@ export default {
             db.collection('users').doc(doc.id).get()
               .then(doc => {
                 this.user = doc.data()
-                console.log('current user:', this.user.username)
+                console.log('current user:', this.user)
               })
               .catch(err => {
                 console.log('user GET error', err.message)
+                console.log('current user:', this.user)
               })
           })
         })
@@ -79,6 +85,8 @@ export default {
         .catch(err => {
           console.log('user fetch error', err.message)
         })
+    } else {
+      console.log('current user:', this.user)
     }
   }
 }
@@ -87,7 +95,13 @@ export default {
 <style lang="css">
   .home {
     height: 100vh;
-    margin-top: 85px;
+    margin-top: 90px;
+  }
+
+  .home .description-box {
+    position: fixed;
+    top: 150px;
+    left: 30px;
   }
 
   .home .description {
