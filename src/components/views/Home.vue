@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="home container">
     <header class="row">
-      <h3 class="center grey-text text-darken-2">King your list</h3>
+      <h3 class="center grey-text text-darken-2">{{ user.username }}'s lists</h3>
       <div class="col s10 offset-s2 m8 offset-m3 l6 offset-l4">
         <blockquote>
           <ul class="grey-text">
@@ -87,10 +87,7 @@ export default {
 <style lang="css">
   .home {
     height: 100vh;
-  }
-
-  .home {
-
+    margin-top: 85px;
   }
 
   .home .description {

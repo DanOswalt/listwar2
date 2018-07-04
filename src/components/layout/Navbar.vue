@@ -1,5 +1,5 @@
 <template lang="html">
-  <nav>
+  <nav class="navbar">
     <div class="nav-wrapper deep-orange lighten-1">
       <router-link to="/" class="brand-logo">ListWar</router-link>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -31,4 +31,10 @@ export default {
 </script>
 
 <style lang="css">
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+  }
 </style>

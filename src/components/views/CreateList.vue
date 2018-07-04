@@ -45,7 +45,7 @@
       <div class="row center-align">
         <div v-if="!entriesSubmitted" class="col s12">
           <div v-if="entriesCount >= 4" @click.prevent="submitEntries" class="btn orange darken-4">
-            <i class="material-icons right">arrow_right</i>{{ entriesCount }} entries go {{ roundCount }} rounds
+            <i class="material-icons right">arrow_right</i>{{ entriesCount }} entries, {{ roundCount }} rounds
           </div>
           <div v-else class="btn disabled">Enter some more items</div>
         </div>
