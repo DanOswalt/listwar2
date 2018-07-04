@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="createlist">
+  <div class="createlist container">
     <header class="title">
       <h4 v-if="!entriesSubmitted" class="center-align teal-text text-darken-4">Create a new list</h4>
       <h4 v-else class="center-align teal-text text-darken-4">Give it a title!</h4>
@@ -7,7 +7,7 @@
 
     <!-- form row -->
     <div class="row">
-      <form v-show="entriesSubmitted" @submit.prevent="createList" class="col s12 m6 offset-m3 l4 offset-l4">
+      <form v-show="entriesSubmitted" @submit.prevent="createList" class="col s12 m6 offset-m3">
         <div class="row">
           <div class="input-field">
             <input id="titleInput"
@@ -19,7 +19,7 @@
         </div>
       </form>
 
-      <form @submit.prevent="addEntry" class="col s12 m6 offset-m3 l4 offset-l4">
+      <form @submit.prevent="addEntry" class="col s12 m6 offset-m3">
         <div v-if="!entriesSubmitted" class="row">
           <div class="input-field">
             <input id="entryInput"
@@ -134,6 +134,10 @@ export default {
 </script>
 
 <style lang="css">
+  .createlist {
+    margin-top: 90px;
+  }
+
   .createlist .remove {
     cursor: pointer;
   }
