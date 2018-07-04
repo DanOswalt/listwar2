@@ -1,23 +1,25 @@
 <template lang="html">
-  <div class="register container">
-    <form @submit.prevent="register" class="card-panel teal-text text-darken-4">
-      <h4 class="card-title center">Sign Up to save and share lists</h4>
-      <div class="field">
-        <label for="email">Email:</label>
-        <input type="email" name="email" v-model="email">
-      </div>
-      <div class="field">
-        <label for="password">Password:</label>
-        <input type="password" name="password" v-model="password">
-      </div>
-      <div class="field">
-        <label for="username">Username:</label>
-        <input type="text" name="username" v-model="username">
-      </div>
-      <div class="field center">
-        <button class="btn teal">Register</button>
-      </div>
-    </form>
+  <div class="register container row">
+    <div class="col s12 m6 offset-m3"> 
+      <form @submit.prevent="register" class="card-panel teal-text text-darken-4">
+        <h4 class="card-title center">Sign Up to save and share lists</h4>
+        <div class="input-field">
+          <label for="email">Email:</label>
+          <input type="email" name="email" v-model="email">
+        </div>
+        <div class="input-field">
+          <label for="password">Password:</label>
+          <input type="password" name="password" v-model="password">
+        </div>
+        <div class="input-field">
+          <label for="username">Username:</label>
+          <input type="text" name="username" v-model="username">
+        </div>
+        <div class="field center">
+          <button class="btn teal">Register</button>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -79,4 +81,7 @@ export default {
 </script>
 
 <style lang="css">
+  .register {
+    margin-top: 90px;
+  }
 </style>

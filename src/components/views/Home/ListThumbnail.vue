@@ -1,7 +1,7 @@
 <template lang="html">
-  <div class="thumbnail">
+  <div class="thumbnail hoverable">
     <div class="card white">
-      <i class="material-icons right grey-text remove">highlight_off</i>
+      <i class="material-icons right grey-text remove thumbnail-action">highlight_off</i>
       <div class="card-content grey-text text-darken-3">
         <h5 class="card-title center">{{ list.title }}</h5>
         <pre class="center-align grey-text">created by <span class="orange-text text-darken-4">{{ username }}</span> <span class="grey-text">{{ moment(list.createdOn).fromNow() }}</span></pre>
@@ -12,13 +12,13 @@
         <div class="row actions">
           <ul class="actions-menu">
             <li class="col s4 center">
-              <i class="material-icons grey-text">play_circle_outline</i>
+              <i class="material-icons grey-text thumbnail-action">play_circle_outline</i>
             </li>
             <li class="col s4 center">
-              <i class="material-icons grey-text">content_copy</i>
+              <i class="material-icons grey-text thumbnail-action">content_copy</i>
             </li>
             <li class="col s4 center">
-              <i class="material-icons grey-text">share</i>
+              <i class="material-icons grey-text thumbnail-action">share</i>
             </li>
           </ul>
         </div>
@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import db from '@/firebase/init'
+
 export default {
   name: 'ListThumbnail',
   props: [
@@ -37,11 +39,20 @@ export default {
   ],
   data () {
     return {}
+  },
+  methods: {
+    deleteList () {
+      // db.collections('lists').
+    }
   }
 }
 </script>
 
 <style lang="css">
+  .thumbnail {
+    cursor: default !important;
+  }
+
   .thumbnail .collection {
     border-radius: 10px;
   }
@@ -52,4 +63,9 @@ export default {
     top: 0.7em;
     right: 0.7em;
   }
+
+  .thumbnail .thumbnail-action {
+    cursor: pointer;
+  }
+
 </style>

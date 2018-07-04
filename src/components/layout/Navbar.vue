@@ -3,9 +3,10 @@
     <div class="nav-wrapper deep-orange lighten-1">
       <router-link to="/" class="brand-logo">ListWar</router-link>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><router-link :to="{ name: 'Register' }">Sign Up</router-link></li>
-        <li><router-link :to="{ name: 'Login' }">Login</router-link></li>
-        <li @click="logout"><a>Logout</a></li>
+        <li v-if="!authUser"><router-link :to="{ name: 'Register' }">Sign Up</router-link></li>
+        <li v-if="!authUser"><router-link :to="{ name: 'Login' }">Login</router-link></li>
+        <li v-if="authUser" @click="logout"><a>{{ authUser.email }}</a></li>
+        <li v-if="authUser" @click="logout"><a><i class="material-icons">exit_to_app</i></a></li>
       </ul>
     </div>
   </nav>
@@ -17,7 +18,9 @@ import firebase from 'firebase'
 export default {
   name: 'Navbar',
   data () {
-    return {}
+    return {
+      authUser: null
+    }
   },
   methods: {
     logout () {
@@ -26,6 +29,15 @@ export default {
           this.$router.push({ name: 'Home' })
         })
     }
+  },
+  created() {
+    firebase.auth().onAuthStateChanged((authUser) => {
+      if (authUser) {
+        this.authUser = authUser
+      } else {
+        this.authUser = null
+      }
+    })
   }
 }
 </script>
@@ -36,5 +48,9 @@ export default {
     top: 0;
     left: 0;
     z-index: 9999;
+  }
+
+  nav .brand-logo {
+    margin-left: 20px;
   }
 </style>

@@ -3,7 +3,7 @@
     <header class="row">
       <h3 v-if="user" class="center grey-text text-darken-2">{{ user.username }}'s lists</h3>
     </header>
-    <aside class="description-box show-on-large">
+    <aside class="description-box hide-on-med-and-down">
       <blockquote>
         <ul class="grey-text">
           <li><span class="description deep-orange-text">Create</span> a list of things.</li>
@@ -16,7 +16,7 @@
     <section class="row container">
       <!-- list thumbnail cards -->
       <div class="row">
-        <ul v-if="user.lists && user.lists.length > 0 " class="list-thumbnails">
+        <ul v-if="user.lists.length > 0 " class="list-thumbnails">
           <li v-for="(list, index) in user.lists" :key="index">
             <div class="col s12 m8 offset-m2">
               <ListThumbnail :list='list' :username='user.username' :createdon='list.createdOn'/>
@@ -42,13 +42,17 @@ export default {
   },
   data () {
     return {
-      user: null
+      user: {
+        userId: null,
+        username: 'anonymous',
+        lists: []
+      }
     }
   },
   computed: {
-    // noLists () {
-    //   return this.user && this.user.lists.length > 0
-    // }
+    noLists () {
+      return this.user.lists.length === 0
+    }
   },
   mounted () {
     let authUser = firebase.auth().currentUser
