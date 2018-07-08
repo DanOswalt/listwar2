@@ -5,8 +5,10 @@
       <h4 v-else class="center-align teal-text text-darken-4">Give it a title!</h4>
     </header>
 
-    <!-- form row -->
     <div class="row">
+    <div class="card hoverable col s12 m8 offset-m2">
+    <!-- form row -->
+    <div class="card-content">
       <form v-show="entriesSubmitted" @submit.prevent="createList" class="col s12 m6 offset-m3">
         <div class="row">
           <div class="input-field">
@@ -26,6 +28,9 @@
                    type="text"
                    v-model="newEntry"
                    autofocus>
+            <button class="btn-small right teal darken-4 white-text" :class="{ disabled: !(this.newEntry && this.entryIsUnique)}">
+              Add Entry<i @click="addEntry" class="material-icons right white-text add-item">playlist_add</i>
+            </button>
             <label for="entry">Enter new item:</label>
           </div>
         </div>
@@ -56,6 +61,8 @@
       </div>
 
     </div>
+    </div>
+    </div>
   </div>
 </template>
 
@@ -66,7 +73,7 @@ export default {
   name: 'CreateList',
   data () {
     return {
-      userId: this.$route.params.userId,
+      user: this.$route.params.user,
       newEntry: '',
       title: '',
       entries: [],
@@ -94,6 +101,9 @@ export default {
         'teal-text': !this.entriesSubmitted,
         'text-darken-4': !this.entriesSubmitted
       }
+    },
+    entryIsNotEmpty () {
+      this.entry != null
     }
   },
   methods: {
@@ -112,21 +122,31 @@ export default {
       this.$nextTick(() => this.$refs.title.focus()) // this works, but why exactly?
     },
     createList () {
-      const timestamp = new Date()
-
-      db.collection('lists').doc()
-        .set({
+      console.log('user before update', this.user)
+      db.collection('lists')
+        .add({
           title: this.title,
           entries: this.entries,
-          createdOn: timestamp.getTime(),
-          creatorId: this.userId
+          createdOn: Date.now(),
+          creatorId: this.user.userId
         })
-        .then(() => {
-          // redirect to home
-          this.$router.push({ name: 'Home' })
-        })
-        .catch(err => {
-          console.log(err.message)
+        .then(listRef => {
+          console.log('ref:', listRef)
+          this.user.access.push(listRef.id)
+          
+          db.collection('users').where('userId', '==', this.user.userId).get()
+            .then(snapshot => {
+              snapshot.forEach(doc => {
+                db.collection('users').doc(doc.id)
+                .update(this.user)
+                .then(() => {
+                  this.$router.push({ name: 'Home' })
+                })
+                .catch(err => {
+                  console.log(err.message)
+                })
+              })
+            })
         })
     }
   }
@@ -144,6 +164,11 @@ export default {
 
   .createlist .title {
     margin-bottom: 3em;
+  }
+
+  .createlist .add-item {
+    font-size: 2em;
+    cursor: pointer;
   }
 
 </style>

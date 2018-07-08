@@ -1,32 +1,31 @@
 <template lang="html">
   <div class="home container">
     <header class="row">
-      <h3 v-if="user" class="center grey-text text-darken-2">{{ user.username }}'s lists</h3>
+      <h3 v-if="user" class="center grey-text text-darken-2">Your Lists</h3>
     </header>
-    <aside class="description-box hide-on-med-and-down">
-      <blockquote>
-        <ul class="grey-text">
-          <li><span class="description deep-orange-text">Create</span> a list of things.</li>
-          <li><span class="description deep-orange-text">Battle</span> those things 1 v 1.</li>
-          <li><span class="description deep-orange-text">Discover</span>  the true pecking order.</li>
-          <li><span class="description teal-text darken-2">Share and compare.</span></li>
-        </ul>
-      </blockquote>
-    </aside>
     <section class="row container">
       <!-- list thumbnail cards -->
       <div class="row">
         <ul v-if="user.lists.length > 0 " class="list-thumbnails">
           <li v-for="(list, index) in user.lists" :key="index">
             <div class="col s12 m8 offset-m2">
-              <ListThumbnail :list='list' :username='user.username' :createdon='list.createdOn'/>
+              <ListThumbnail :list='list' :user='user'/>
             </div>
           </li>
         </ul>
-        <div v-else>Create a list</div>
+        <div v-else>
+          <blockquote class="introduction">
+            <ul class="grey-text">
+              <li><span class="description deep-orange-text">Create</span> a list of things.</li>
+              <li><span class="description deep-orange-text">Battle</span> those things 1 v 1.</li>
+              <li><span class="description deep-orange-text">Discover</span>  the true pecking order.</li>
+              <li><span class="description teal-text darken-2">Share and compare.</span></li>
+            </ul>
+          </blockquote>
+        </div>
       </div>
     </section>
-    <router-link :to="{ name: 'CreateList', params: { userId: user.userId } }" class="createlist-btn btn-floating btn-large orange darken-4" :class="{ pulse: noLists }"><i class="material-icons">add</i></router-link>
+    <router-link :to="{ name: 'CreateList', params: { user: user } }" class="createlist-btn btn-floating btn-large orange darken-4" :class="{ pulse: noLists }"><i class="material-icons">add</i></router-link>
   </div>
 </template>
 
@@ -45,6 +44,7 @@ export default {
       user: {
         userId: null,
         username: 'anonymous',
+        acccess: [],
         lists: []
       }
     }
@@ -67,6 +67,7 @@ export default {
             db.collection('users').doc(doc.id).get()
               .then(doc => {
                 this.user = doc.data()
+                this.user.lists = []
                 console.log('current user:', this.user)
               })
               .catch(err => {
@@ -76,10 +77,14 @@ export default {
           })
         })
         .then(() => {
-          db.collection('lists').where('creatorId', '==', authUser.uid).get()
+          db.collection('lists').get()
             .then(snapshot => {
               snapshot.forEach(doc => {
-                this.user.lists.push(doc.data())
+                const list = doc.data()
+                list.id = doc.id
+                if (this.user.access.includes(list.id)) {
+                  this.user.lists.push(list)
+                }
               })
             })
             .catch(err => {
@@ -106,6 +111,11 @@ export default {
     position: fixed;
     top: 150px;
     left: 30px;
+  }
+
+  .home .introduction {
+    margin: auto 0;
+    font-size: 1.8em;
   }
 
   .home .description {
