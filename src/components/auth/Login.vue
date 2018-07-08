@@ -5,7 +5,7 @@
       <h4 class="card-title center">Log In</h4>
         <div class="input-field">
           <label for="email">Email:</label>
-          <input type="email" name="email" v-model="email">
+          <input type="email" name="email" v-model="email" autofocus>
         </div>
         <div class="input-field">
           <label for="password">Password:</label>
