@@ -1,68 +1,73 @@
 <template lang="html">
   <div class="createlist container">
     <header class="title">
-      <h4 v-if="!entriesSubmitted" class="center-align teal-text text-darken-4">Create a new list</h4>
-      <h4 v-else class="center-align teal-text text-darken-4">Give it a title!</h4>
+      <h3 v-if="!entriesSubmitted" class="center-align grey-text text-lighten-2">Create a new list</h3>
+      <h3 v-else class="center-align  grey-text text-lighten-2">Give it a title!</h3>
     </header>
 
-    <div class="row">
-    <div class="card hoverable col s12 m8 offset-m2">
-    <!-- form row -->
-    <div class="card-content">
-      <form v-show="entriesSubmitted" @submit.prevent="createList" class="col s12 m6 offset-m3">
-        <div class="row">
-          <div class="input-field">
-            <input id="titleInput"
-                   ref="title"
-                   type="text"
-                   v-model="title">
-            <label for="title">Title:</label>
-          </div>
-        </div>
-      </form>
+    <section class="row container">
+      <div class="row">
+        <ul> <!-- simulate home row indent -->
+          <li>
+            <div class="card hoverable col s12 m8 offset-m2">
+              <!-- form row -->
+              <div class="card-content">
+                <form v-show="entriesSubmitted" @submit.prevent="createList" class="col s12 m8 offset-m2">
+                  <div class="row">
+                    <div class="input-field">
+                      <input id="titleInput"
+                            ref="title"
+                            type="text"
+                            v-model="title">
+                      <label for="title">Title:</label>
+                    </div>
+                  </div>
+                </form>
 
-      <form @submit.prevent="addEntry" class="col s12 m6 offset-m3">
-        <div v-if="!entriesSubmitted" class="row">
-          <div class="input-field">
-            <input id="entryInput"
-                   type="text"
-                   v-model="newEntry"
-                   autofocus>
-            <button class="btn-small right teal darken-4 white-text" :class="{ disabled: !(this.newEntry && this.entryIsUnique)}">
-              Add Entry<i @click="addEntry" class="material-icons right white-text add-item">playlist_add</i>
-            </button>
-            <label for="entry">Enter new item:</label>
-          </div>
-        </div>
-        <div class="row">
-          <ul v-show="entries.length > 0" class="entries-list collection">
-            <li v-for="(entry, index) in entries"
-                :key="index"
-                class="collection-item"
-                :class="entryClasses">{{ entry }}
-                <i v-if=!entriesSubmitted @click="removeEntry(index)" class="material-icons right remove grey-text">highlight_off</i>
-            </li>
-          </ul>
-        </div>
-      </form>
+                <form @submit.prevent="addEntry" class="col s12 m8 offset-m2">
+                  <div v-if="!entriesSubmitted" class="row">
+                    <div class="input-field">
+                      <input id="entryInput"
+                            type="text"
+                            v-model="newEntry"
+                            autofocus>
+                      <button class="btn-small right teal darken-4 white-text" :class="{ disabled: !(this.newEntry && this.entryIsUnique)}">
+                        <i @click="addEntry" class="material-icons center white-text add-item">playlist_add</i>
+                      </button>
+                      <label for="entry">Enter new item:</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <ul v-show="entries.length > 0" class="entries-list collection">
+                      <li v-for="(entry, index) in entries"
+                          :key="index"
+                          class="collection-item white-text"
+                          :class="entryClasses">{{ entry }}
+                          <i v-if=!entriesSubmitted @click="removeEntry(index)" class="material-icons right remove grey-text">highlight_off</i>
+                      </li>
+                    </ul>
+                  </div>
+                </form>
 
-      <!-- submit button row -->
-      <div class="row center-align">
-        <div v-if="!entriesSubmitted" class="col s12">
-          <div v-if="entriesCount >= 4" @click.prevent="submitEntries" class="btn orange darken-4">
-            <i class="material-icons right">arrow_right</i>{{ entriesCount }} entries, {{ roundCount }} rounds
-          </div>
-          <div v-else class="btn disabled">Enter some more items</div>
-        </div>
+                <!-- submit button row -->
+                <div class="row center-align">
+                  <div v-if="!entriesSubmitted" class="col s12">
+                    <div v-if="entriesCount >= 4" @click.prevent="submitEntries" class="btn orange darken-4">
+                      <i class="material-icons right">arrow_right</i>{{ entriesCount }} entries, {{ roundCount }} rounds
+                    </div>
+                    <div v-else class="btn disabled">Enter some more items</div>
+                  </div>
 
-        <div v-if="entriesSubmitted" class="col s12">
-          <button class="btn orange darken-4" :class="{ disabled: !title }" @click="createList">Save List</button>
-        </div>
-      </div>
-
-    </div>
-    </div>
-    </div>
+                  <div v-if="entriesSubmitted" class="col s12">
+                    <button class="btn orange darken-4" :class="{ disabled: !title }" @click="createList">Save List</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div> <!--row-->
+    </section>
   </div>
 </template>
 
@@ -96,19 +101,24 @@ export default {
     },
     entryClasses () {
       return {
-        teal: this.entriesSubmitted,
-        'white-text': this.entriesSubmitted,
-        'teal-text': !this.entriesSubmitted,
-        'text-darken-4': !this.entriesSubmitted
+        'teal': this.entriesSubmitted,
+        'darken-4': this.entriesSubmitted,
+        'grey-text': this.entriesSubmitted,
+        'text-lighten-2': this.entriesSubmitted,
+        'deep-orange': !this.entriesSubmitted,
+        'lighten-2': !this.entriesSubmitted
       }
     },
     entryIsNotEmpty () {
-      this.entry != null
+      return this.entry != null
     }
   },
   methods: {
     addEntry () {
       this.newEntry = this.newEntry.trim()
+      if (this.newEntry === '' && this.entriesCount > 3) {
+        this.submitEntries()
+      }
       if (this.newEntry && this.entryIsUnique) {
         this.entries.push(this.newEntry)
         this.newEntry = ''
@@ -133,21 +143,28 @@ export default {
         .then(listRef => {
           console.log('ref:', listRef)
           this.user.access.push(listRef.id)
-          
           db.collection('users').where('userId', '==', this.user.userId).get()
             .then(snapshot => {
               snapshot.forEach(doc => {
                 db.collection('users').doc(doc.id)
-                .update(this.user)
-                .then(() => {
-                  this.$router.push({ name: 'Home' })
-                })
-                .catch(err => {
-                  console.log(err.message)
-                })
+                  .update(this.user)
+                  .then(() => {
+                    this.$router.push({ name: 'Home' })
+                  })
+                  .catch(err => {
+                    console.log(err.message)
+                  })
               })
             })
+            .catch(err => {
+              console.log(err.message)
+            })
         })
+    }
+  },
+  created () {
+    if (!this.$route.params.user) {
+      this.$router.push({ name: 'Home' })
     }
   }
 }
@@ -158,6 +175,10 @@ export default {
     margin-top: 90px;
   }
 
+  .createlist #inputEntry {
+    color: teal;
+  }
+
   .createlist .remove {
     cursor: pointer;
   }
@@ -166,9 +187,18 @@ export default {
     margin-bottom: 3em;
   }
 
+  .createlist .card {
+    background: #555;
+  }
+
+  .createlist .card-content {
+    background: #555;
+  }
+
   .createlist .add-item {
     font-size: 2em;
     cursor: pointer;
+    margin-bottom: 20px;
   }
 
 </style>
@@ -177,14 +207,9 @@ export default {
   notes
 
   -do validation
-    -strings must be unique
-    -strings must be trimmed
-    -strings must be non-blank
-    -must have at least 4 items
     -limit to 10-12 items?
 
   -on submit
-    -ask for title after clicking submit
     -create list object
     -need a list class (proper place for this?)
     -attach new list object to user
