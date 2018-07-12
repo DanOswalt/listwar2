@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="home container">
     <header class="row">
-      <h3 v-if="user" class="center grey-text text-darken-2">Your Lists</h3>
+      <h3 v-if="user" class="center grey-text text-lighten-2">Your Lists</h3>
     </header>
     <section class="row container">
       <!-- list thumbnail cards -->
@@ -44,9 +44,10 @@ export default {
       user: {
         userId: null,
         username: 'anonymous',
-        acccess: [],
+        access: [],
         lists: []
-      }
+      },
+      userRef: null
     }
   },
   computed: {
@@ -55,16 +56,18 @@ export default {
     }
   },
   mounted () {
-    let authUser = firebase.auth().currentUser
+    let authedUser = firebase.auth().currentUser
 
     // if a user is logged in, find that user by uid in the users collection
     // is there no get user by id? what is a snapshot exactly?
 
-    if (authUser) {
-      db.collection('users').where('userId', '==', authUser.uid).get()
+    if (authedUser) {
+      db.collection('users').where('userId', '==', authedUser.uid).get()
         .then(snapshot => {
           snapshot.forEach(doc => {
-            db.collection('users').doc(doc.id).get()
+            this.userRef = db.collection('users').doc(doc.id)
+            console.log(this.userRef)
+            this.userRef.get()
               .then(doc => {
                 this.user = doc.data()
                 this.user.lists = []
@@ -105,6 +108,7 @@ export default {
   .home {
     height: 100vh;
     margin-top: 90px;
+    background-color: #333;
   }
 
   .home .description-box {

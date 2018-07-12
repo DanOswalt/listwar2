@@ -2,11 +2,11 @@
   <div class="thumbnail hoverable">
     <div class="card white">
       <i @click="deleteList" class="material-icons right grey-text remove thumbnail-action">highlight_off</i>
-      <div class="card-content grey-text text-darken-3">
+      <div class="card-content grey-text text-lighten-2">
         <h5 class="card-title center">{{ list.title }}</h5>
         <pre class="center-align grey-text">created by <span class="orange-text text-darken-4">{{ user.username }}</span> <span class="grey-text">{{ moment(list.createdOn).fromNow() }}</span></pre>
         <ul class="list-entries collection">
-          <li class="list-entry collection-item white-text teal" v-for="(entry, index) in list.entries" :key="index">{{ entry }}</li>
+          <li class="list-entry collection-item grey-text text-lighten-2 teal darken-4" v-for="(entry, index) in list.entries" :key="index">{{ entry }}</li>
         </ul>
         <br>
         <div class="row actions">
@@ -41,10 +41,9 @@ export default {
   },
   methods: {
     deleteList () {
-      console.log('list', this.list);
-      
+      console.log('list', this.list)
       // remove this list both as a accessor, and as a creator, if created
-      let ref = db.collections('users').doc(user.id)
+      let ref = db.collections('users').doc(this.user.id)
       ref.update({
         // just remove from accessors array, leave as creator, in case other have it
       })
@@ -56,6 +55,10 @@ export default {
 <style lang="css">
   .thumbnail {
     cursor: default !important;
+  }
+
+  .thumbnail .card-content {
+    background: #555;
   }
 
   .thumbnail .collection {

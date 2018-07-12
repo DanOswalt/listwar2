@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="register container row">
-    <div class="col s12 m6 offset-m3"> 
+    <div class="col s12 m6 offset-m3">
       <form @submit.prevent="register" class="card-panel teal-text text-darken-4">
         <h4 class="card-title center">Sign Up to save and share lists</h4>
         <div class="input-field">
