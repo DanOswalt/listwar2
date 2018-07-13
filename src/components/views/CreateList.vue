@@ -39,7 +39,7 @@
                             v-model="newEntry"
                             autofocus>
                       <button class="btn-small right teal darken-4 white-text" :class="{ disabled: !(this.newEntry && this.entryIsUnique)}">
-                        <i @click="addEntry" class="material-icons center white-text add-item">playlist_add</i>
+                        <i @click="addEntry" class="material-icons center grey-text darken-6 add-item">playlist_add</i>
                       </button>
                       <label for="entry">Enter new item:</label>
                     </div>
@@ -201,10 +201,15 @@ export default {
 
   .createlist .card {
     background: #555;
+    border-radius: 3%;
   }
 
   .createlist .card-content {
     background: #555;
+  }
+
+  .createlist .collection {
+    border-radius: 3%;
   }
 
   .createlist .add-item {

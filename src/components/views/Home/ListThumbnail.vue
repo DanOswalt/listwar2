@@ -3,7 +3,7 @@
     <div class="card white">
       <i @click="deleteList" class="material-icons right grey-text remove thumbnail-action">highlight_off</i>
       <div class="card-content grey-text text-lighten-2">
-        <h5 class="card-title center">{{ list.title }}</h5>
+        <h5 class="title center">{{ list.title }}</h5>
         <pre class="center-align grey-text">created by <span class="orange-text text-darken-4">{{ user.username }}</span> <span class="grey-text">{{ moment(list.createdOn).fromNow() }}</span></pre>
         <ul class="list-entries collection">
           <li class="list-entry collection-item grey-text text-lighten-2 teal darken-4" v-for="(entry, index) in list.entries" :key="index">{{ entry }}</li>
@@ -57,12 +57,16 @@ export default {
     cursor: default !important;
   }
 
+  .thumbnail .card {
+    border-radius: 3%;
+  }
+
   .thumbnail .card-content {
     background: #555;
   }
 
   .thumbnail .collection {
-    border-radius: 10px;
+    border-radius: 3%;
   }
 
   .thumbnail .remove {
