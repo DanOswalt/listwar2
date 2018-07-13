@@ -35,10 +35,11 @@
                   <div v-if="!entriesSubmitted" class="row">
                     <div class="input-field">
                       <input id="entryInput"
+                            class="col s9"
                             type="text"
                             v-model="newEntry"
                             autofocus>
-                      <button class="btn-small right teal darken-4 white-text" :class="{ disabled: !(this.newEntry && this.entryIsUnique)}">
+                      <button class="col s2 pull-right-1 btn-small teal darken-4 white-text" :class="{ disabled: !(this.newEntry && this.entryIsUnique)}">
                         <i @click="addEntry" class="material-icons center grey-text darken-6 add-item">playlist_add</i>
                       </button>
                       <label for="entry">Enter new item:</label>
@@ -50,7 +51,7 @@
                           :key="index"
                           class="collection-item white-text"
                           :class="entryClasses">{{ entry }}
-                          <i v-if=!entriesSubmitted @click="removeEntry(index)" class="material-icons right remove grey-text">highlight_off</i>
+                          <i v-if=!entriesSubmitted @click="removeEntry(index)" class="material-icons right remove grey-text text-darken-2">highlight_off</i>
                       </li>
                     </ul>
                   </div>
@@ -62,7 +63,7 @@
                     <div v-if="entriesCount >= 4" @click.prevent="submitEntries" class="btn orange darken-4">
                       <i class="material-icons right">arrow_right</i>{{ entriesCount }} entries, {{ roundCount }} rounds
                     </div>
-                    <div v-else class="btn disabled">Enter some more items to submit</div>
+                    <div v-else class="btn disabled">Enter more to submit</div>
                   </div>
 
                   <div v-if="entriesSubmitted" class="col s12">
@@ -145,7 +146,8 @@ export default {
           title: this.title,
           entries: this.entries,
           createdOn: Date.now(),
-          creatorId: this.user.userId
+          creatorId: this.user.userId,
+          creatorUsername: this.user.username
         })
         .then(listRef => {
           console.log('ref:', listRef)
@@ -215,7 +217,6 @@ export default {
   .createlist .add-item {
     font-size: 2em;
     cursor: pointer;
-    margin-bottom: 20px;
   }
 
 </style>

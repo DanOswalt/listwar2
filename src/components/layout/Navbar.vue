@@ -1,12 +1,17 @@
 <template lang="html">
   <nav class="navbar">
     <div class="nav-wrapper deep-orange lighten-1">
-      <router-link to="/" class="brand-logo">ListWar</router-link>
+      <router-link to="/" class="brand-logo left">ListWar</router-link>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li v-if="!authedUser"><router-link :to="{ name: 'Register' }" class="deep-orange-text text-lighten-5">Sign Up</router-link></li>
         <li v-if="!authedUser"><router-link :to="{ name: 'Login' }" class="deep-orange-text text-lighten-5">Login</router-link></li>
         <li v-if="authedUser"><a class="deep-orange-text text-lighten-5"><i class="material-icons left deep-orange-text text-lighten-5">face</i>{{ authedUser.email }}</a></li>
         <li v-if="authedUser" @click="logout"><a><i class="material-icons deep-orange-text text-lighten-5">exit_to_app</i></a></li>
+      </ul>
+      <ul class="right hide-on-large-only">
+        <li>
+          <i class="material-icons center">menus</i>
+        </li>
       </ul>
     </div>
   </nav>
