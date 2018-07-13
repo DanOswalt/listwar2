@@ -21,4 +21,8 @@ export default {
     background: #333;
     font-family: 'Gaegu', sans-serif;
   }
+
+  .title {
+    font-family: 'Amatic SC';
+  }
 </style>

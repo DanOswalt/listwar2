@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="home container">
     <header class="row">
-      <h3 v-if="user" class="center grey-text text-lighten-2">Your Lists</h3>
+      <h3 v-if="user" class="title center grey-text text-lighten-2">Your Lists</h3>
     </header>
     <section class="row container">
       <!-- list thumbnail cards -->
