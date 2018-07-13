@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="home container">
     <header class="row">
-      <h3 v-if="user" class="title center grey-text text-lighten-2">Your Lists</h3>
+      <h3 class="title center grey-text text-lighten-2">Your Lists</h3>
     </header>
     <section class="row container">
       <!-- list thumbnail cards -->
@@ -66,16 +66,13 @@ export default {
         .then(snapshot => {
           snapshot.forEach(doc => {
             this.userRef = db.collection('users').doc(doc.id)
-            console.log(this.userRef)
             this.userRef.get()
               .then(doc => {
                 this.user = doc.data()
                 this.user.lists = []
-                console.log('current user:', this.user)
               })
               .catch(err => {
                 console.log('user GET error', err.message)
-                console.log('current user:', this.user)
               })
           })
         })
@@ -83,8 +80,13 @@ export default {
           db.collection('lists').get()
             .then(snapshot => {
               snapshot.forEach(doc => {
-                const list = doc.data()
+                let list = doc.data()
                 list.id = doc.id
+                // list.entries.sort((a, b) => {
+                //   const timeA = parseInt(a)
+                //   const timeB = parseInt(b)
+                //   return timeA - timeB
+                // })
                 if (this.user.access.includes(list.id)) {
                   this.user.lists.push(list)
                 }

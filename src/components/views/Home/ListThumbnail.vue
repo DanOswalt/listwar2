@@ -12,7 +12,7 @@
         <div class="row actions">
           <ul class="actions-menu">
             <li class="col s4 center">
-              <i class="material-icons grey-text thumbnail-action">play_circle_outline</i>
+              <i @click="goToWar(user, list)" class="material-icons grey-text thumbnail-action">play_circle_outline</i>
             </li>
             <li class="col s4 center">
               <i class="material-icons grey-text thumbnail-action">content_copy</i>
@@ -37,7 +37,14 @@ export default {
     'user'
   ],
   data () {
-    return {}
+    return {
+      warParams: {
+        creator: this.list.creatorUsername,
+        title: this.list.title,
+        list: this.list,
+        user: this.user
+      }
+    }
   },
   methods: {
     deleteList () {
@@ -47,7 +54,11 @@ export default {
       ref.update({
         // just remove from accessors array, leave as creator, in case other have it
       })
+    },
+    goToWar () {
+      this.$router.push({ name: 'War', params: this.warParams })
     }
+    
   }
 }
 </script>

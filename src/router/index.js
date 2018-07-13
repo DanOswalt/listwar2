@@ -4,6 +4,7 @@ import Home from '@/components/views/Home'
 import CreateList from '@/components/views/CreateList'
 import Register from '@/components/auth/Register'
 import Login from '@/components/auth/Login'
+import War from '@/components/views/War'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/war/:creator/:title',
+      name: 'War',
+      component: War
     }
   ]
 })
