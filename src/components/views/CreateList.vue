@@ -1,8 +1,15 @@
 <template lang="html">
   <div class="createlist container">
     <header class="title">
-      <h3 v-if="!entriesSubmitted" class="center-align grey-text text-lighten-2">Create a new list</h3>
-      <h3 v-else class="center-align  grey-text text-lighten-2">Give it a title!</h3>
+      <div class=row>
+        <div class="col s1">
+          <i @click="$router.go(-1)" class="material-icons left medium back-btn hoverable grey-text lighten-2">chevron_left</i>
+        </div>
+        <div class="col s10">
+          <h3 v-if="!entriesSubmitted" class="center-align grey-text text-lighten-2">Create a new list</h3>
+          <h3 v-else class="center-align grey-text text-lighten-2">Give it a title!</h3>
+        </div>
+      </div>
     </header>
 
     <section class="row container">
@@ -55,7 +62,7 @@
                     <div v-if="entriesCount >= 4" @click.prevent="submitEntries" class="btn orange darken-4">
                       <i class="material-icons right">arrow_right</i>{{ entriesCount }} entries, {{ roundCount }} rounds
                     </div>
-                    <div v-else class="btn disabled">Enter some more items</div>
+                    <div v-else class="btn disabled">Enter some more items to submit</div>
                   </div>
 
                   <div v-if="entriesSubmitted" class="col s12">
@@ -175,8 +182,13 @@ export default {
     margin-top: 90px;
   }
 
-  .createlist #inputEntry {
-    color: teal;
+  .createlist .back-btn {
+    cursor: pointer;
+    margin-top: 20px;
+  }
+
+  .createlist input[type="text"] {
+    color: white;
   }
 
   .createlist .remove {

@@ -19,5 +19,6 @@ export default {
 <style>
   html {
     background: #333;
+    font-family: 'Gaegu', sans-serif;
   }
 </style>
