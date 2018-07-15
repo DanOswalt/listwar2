@@ -15,9 +15,10 @@
   "dependencies": {
     "firebase": "^5.1.0",
     "moment": "^2.22.2",
-    "npm": "^6.1.0",
+    "npm": "^6.2.0",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-visible": "^1.0.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

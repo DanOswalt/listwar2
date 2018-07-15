@@ -63,7 +63,7 @@
                 <!-- submit button row -->
                 <div class="row center-align">
                   <div v-if="!entriesSubmitted" class="col s12">
-                    <div v-if="entriesCount >= 4" @click.prevent="submitEntries" class="btn orange darken-4">
+                    <div v-if="entriesCount >= 4" @click.prevent="submitEntries" class="btn teal darken-4">
                       <i class="material-icons right">arrow_right</i>{{ entriesCount }} entries, {{ roundCount }} rounds
                     </div>
                     <div v-else class="btn disabled">Enter more to submit</div>
@@ -98,7 +98,10 @@ export default {
       title: '',
       entries: [],
       entriesSubmitted: false,
-      msg: null
+      msg: {
+        content: '',
+        type: 'hide'
+      }
     }
   },
   computed: {
@@ -131,26 +134,29 @@ export default {
   },
   methods: {
     userMsg (content, type) {
-      this.msg = content ? { content, type } : null
+      this.msg = content ? { content, type } : { content: '', type: 'hide' }
     },
     addEntry () {
       this.newEntry = this.newEntry.trim()
       if (this.newEntry === '' && this.entriesCount > 3) {
-        this.userMsg()
+        this.userMsg('Tap enter to submit.', 'info')
         this.submitEntries()
-      }
-      if (this.newEntry && this.entryIsUnique) {
+      } else if (this.newEntry && this.entryIsUnique) {
         this.userMsg()
         this.entries.push(this.newEntry)
         this.newEntry = ''
+      } else if (this.newEntry === '') {
+        this.userMsg('Nothing entered...', 'error')
       } else {
-        this.userMsg('enter a unique entry', 'error')
+        this.userMsg('Enter a unique entry.', 'error')
       }
     },
     removeEntry (index) {
+      this.userMsg('item removed', 'info')
       this.entries.splice(index, 1)
     },
     submitEntries () {
+      this.userMsg('Enter a title!')
       this.entriesSubmitted = true
       this.$nextTick(() => this.$refs.title.focus()) // this works, but why exactly?
     },
@@ -175,12 +181,12 @@ export default {
                     this.$router.push({ name: 'Home' })
                   })
                   .catch(err => {
-                    console.log(err.message)
+                    this.userMsg(err.message, 'error')
                   })
               })
             })
             .catch(err => {
-              console.log(err.message)
+              this.userMsg(err.message, 'error')
             })
         })
     }
