@@ -65,6 +65,7 @@ export default {
 <style lang="css">
   .thumbnail {
     cursor: default !important;
+    margin-bottom: 60px;
   }
 
   .thumbnail .card {

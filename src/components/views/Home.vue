@@ -58,7 +58,10 @@ export default {
         lists: []
       },
       userRef: null,
-      msg: null
+      msg: {
+        content: '',
+        type: 'hide'
+      }
     }
   },
   computed: {
@@ -68,7 +71,7 @@ export default {
   },
   methods: {
     userMsg (content, type) {
-      this.msg = content ? { content, type } : null
+      this.msg = content ? { content, type } : { content: '', type: 'hide' }
     }
   },
   mounted () {
@@ -106,6 +109,7 @@ export default {
                 // })
                 if (this.user.access.includes(list.id)) {
                   this.user.lists.push(list)
+                  this.userMsg(`Hello ${this.user.username}!`, 'info')
                 }
               })
             })

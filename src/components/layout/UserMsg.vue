@@ -1,6 +1,6 @@
 <template>
   <transition name="pop">
-    <div v-if="msg" class="user-msg z-depth-4" :class="msg.type">
+    <div class="user-msg z-depth-2 center-align" :class="msg.type">
       {{ msg.content }}
     </div>
   </transition>
@@ -21,29 +21,32 @@ export default {
 <style>
   .user-msg {
     max-width: 50%;
-    padding: 10px;
+    padding: 5px 10px;
     border-radius: 5px;
     margin: 0 auto;
+    color: #eee;
+    font-size: 1.2em;
   }
 
   .info {
     background-color: teal;
-    color: #eee;
   }
 
   .warn {
     background-color: orange;
-    color: #eee;
   }
 
   .error {
-    background-color: red;
-    color: #eee;
+    background-color: #ef3413;
+  }
+
+  .hide {
+    visibility: hidden;
   }
 
   .pop-enter-active, .pop-leave-active {
-    transition: opacity 0.3s ease-out;
-    transition: transform 0.3s ease-out;
+    transition: opacity 0.2s ease-out;
+    transition: transform 0.2s ease-out;
   }
 
   .pop-enter, .pop-leave-to {
