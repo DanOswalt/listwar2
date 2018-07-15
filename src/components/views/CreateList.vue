@@ -143,7 +143,7 @@ export default {
         this.submitEntries()
       } else if (this.newEntry && this.entryIsUnique) {
         this.userMsg()
-        this.entries.push(this.newEntry)
+        this.entries.push({ value: this.newEntry })
         this.newEntry = ''
       } else if (this.newEntry === '') {
         this.userMsg('Nothing entered...', 'error')

@@ -6,7 +6,7 @@
         <h5 class="title center">{{ list.title }}</h5>
         <pre class="center-align grey-text">created by <span class="orange-text text-darken-4">{{ user.username }}</span> <span class="grey-text">{{ moment(list.createdOn).fromNow() }}</span></pre>
         <ul class="list-entries collection">
-          <li class="list-entry collection-item grey-text text-lighten-2 teal" v-for="(entry, index) in list.entries" :key="index">{{ entry }}</li>
+          <li class="list-entry collection-item grey-text text-lighten-2 teal" v-for="(entry, index) in list.entries" :key="index">{{ entry.value }}</li>
         </ul>
         <br>
         <div class="row actions">
