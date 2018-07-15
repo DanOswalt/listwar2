@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-import db from '@/firebase/init'
+// import firebase from 'firebase'
+// import db from '@/firebase/init'
 
 export default {
   name: 'War',
