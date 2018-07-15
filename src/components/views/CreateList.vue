@@ -12,6 +12,10 @@
       </div>
     </header>
 
+    <section class="msg-box">
+      <user-msg :msg="msg"></user-msg>
+    </section>
+
     <section class="row container">
       <div class="row">
         <ul> <!-- simulate home row indent -->
@@ -39,7 +43,7 @@
                             type="text"
                             v-model="newEntry"
                             autofocus>
-                      <button class="col s2 pull-right-1 btn-small teal darken-4 white-text" :class="{ disabled: !(this.newEntry && this.entryIsUnique)}">
+                      <button class="col s2 pull-right-1 btn-small teal darken-2 white-text" :class="{ disabled: !(this.newEntry && this.entryIsUnique)}">
                         <i @click="addEntry" class="material-icons center grey-text darken-6 add-item">playlist_add</i>
                       </button>
                       <label for="entry">Enter new item:</label>
@@ -80,17 +84,25 @@
 </template>
 
 <script>
+import UserMsg from '@/components/layout/UserMsg.vue'
 import db from '@/firebase/init'
 
 export default {
   name: 'CreateList',
+  components: {
+    UserMsg
+  },
   data () {
     return {
       user: this.$route.params.user,
       newEntry: '',
       title: '',
       entries: [],
-      entriesSubmitted: false
+      entriesSubmitted: false,
+      msg: {
+        content: 'Enter at least 4 items',
+        type: 'info'
+      }
     }
   },
   computed: {
@@ -122,6 +134,9 @@ export default {
     }
   },
   methods: {
+    userMsg (content, type) {
+      this.msg = content ? { content, type } : null
+    },
     addEntry () {
       this.newEntry = this.newEntry.trim()
       if (this.newEntry === '' && this.entriesCount > 3) {
@@ -150,7 +165,6 @@ export default {
           creatorUsername: this.user.username
         })
         .then(listRef => {
-          console.log('ref:', listRef)
           this.user.access.push(listRef.id)
           db.collection('users').where('userId', '==', this.user.userId).get()
             .then(snapshot => {
@@ -172,6 +186,7 @@ export default {
     }
   },
   created () {
+    // can't just land at this route if not logged in
     if (!this.$route.params.user) {
       this.$router.push({ name: 'Home' })
     }
@@ -191,6 +206,8 @@ export default {
 
   .createlist input[type="text"] {
     color: white;
+    display: inline-block;
+    margin-right: 15px;
   }
 
   .createlist .remove {

@@ -3,6 +3,11 @@
     <header class="row">
       <h3 class="title center grey-text text-lighten-2">Your Lists</h3>
     </header>
+
+    <section class="msg-box">
+      <user-msg :msg="msg"></user-msg>
+    </section>
+
     <section class="row container">
       <!-- list thumbnail cards -->
       <div class="row">
@@ -14,14 +19,17 @@
           </li>
         </ul>
         <div v-else>
-          <blockquote class="introduction">
+          <!-- <blockquote class="introduction">
             <ul class="grey-text">
               <li><span class="description deep-orange-text">Create</span> a list of things.</li>
               <li><span class="description deep-orange-text">Battle</span> those things 1 v 1.</li>
               <li><span class="description deep-orange-text">Discover</span>  the true pecking order.</li>
               <li><span class="description teal-text darken-2">Share and compare.</span></li>
             </ul>
-          </blockquote>
+          </blockquote> -->
+          <div class="progress">
+            <div class="indeterminate"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -31,13 +39,15 @@
 
 <script>
 import ListThumbnail from '@/components/views/Home/ListThumbnail.vue'
+import UserMsg from '@/components/layout/UserMsg.vue'
 import firebase from 'firebase'
 import db from '@/firebase/init'
 
 export default {
   name: 'Home',
   components: {
-    ListThumbnail
+    ListThumbnail,
+    UserMsg
   },
   data () {
     return {
@@ -47,12 +57,18 @@ export default {
         access: [],
         lists: []
       },
-      userRef: null
+      userRef: null,
+      msg: null
     }
   },
   computed: {
     noLists () {
       return this.user.lists.length === 0
+    }
+  },
+  methods: {
+    userMsg (content, type) {
+      this.msg = content ? { content, type } : null
     }
   },
   mounted () {
@@ -70,9 +86,10 @@ export default {
               .then(doc => {
                 this.user = doc.data()
                 this.user.lists = []
+                this.userMsg()
               })
               .catch(err => {
-                console.log('user GET error', err.message)
+                this.userMsg(err.message, 'error')
               })
           })
         })
@@ -93,14 +110,14 @@ export default {
               })
             })
             .catch(err => {
-              console.log('list fetch error', err.message)
+              this.userMsg(err.message, 'error')
             })
         })
         .catch(err => {
-          console.log('user fetch error', err.message)
+          this.userMsg(err.message, 'error')
         })
     } else {
-      console.log('current user:', this.user)
+      this.userMsg()
     }
   }
 }
