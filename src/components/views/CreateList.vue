@@ -6,8 +6,7 @@
           <i @click="$router.go(-1)" class="material-icons left medium back-btn hoverable grey-text lighten-2">chevron_left</i>
         </div>
         <div class="col s10">
-          <h3 v-if="!entriesSubmitted" class="center-align grey-text text-lighten-2">Create a new list</h3>
-          <h3 v-else class="center-align grey-text text-lighten-2">Give it a title!</h3>
+          <h3 class="center-align grey-text text-lighten-2">Create a new list</h3>
         </div>
       </div>
     </header>
@@ -50,7 +49,7 @@
                     </div>
                   </div>
                   <div class="row">
-                    <ul v-show="entries.length > 0" class="entries-list collection">
+                    <ul v-show="entries.length > 0" class="entries-list collection z-depth-3" :class="{ 'z-depth-0': entries.submitted }">
                       <li v-for="(entry, index) in entries"
                           :key="index"
                           class="collection-item white-text"
@@ -99,10 +98,7 @@ export default {
       title: '',
       entries: [],
       entriesSubmitted: false,
-      msg: {
-        content: 'Enter at least 4 items',
-        type: 'info'
-      }
+      msg: null
     }
   },
   computed: {
@@ -125,8 +121,8 @@ export default {
         'darken-4': this.entriesSubmitted,
         'grey-text': this.entriesSubmitted,
         'text-lighten-2': this.entriesSubmitted,
-        'deep-orange': !this.entriesSubmitted,
-        'lighten-2': !this.entriesSubmitted
+        'grey': !this.entriesSubmitted,
+        'darken-3': !this.entriesSubmitted
       }
     },
     entryIsNotEmpty () {
@@ -140,11 +136,15 @@ export default {
     addEntry () {
       this.newEntry = this.newEntry.trim()
       if (this.newEntry === '' && this.entriesCount > 3) {
+        this.userMsg()
         this.submitEntries()
       }
       if (this.newEntry && this.entryIsUnique) {
+        this.userMsg()
         this.entries.push(this.newEntry)
         this.newEntry = ''
+      } else {
+        this.userMsg('enter a unique entry', 'error')
       }
     },
     removeEntry (index) {
