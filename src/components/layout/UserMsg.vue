@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade">
+  <transition name="pop">
     <div v-if="msg" class="user-msg z-depth-4" :class="msg.type">
       {{ msg.content }}
     </div>
@@ -41,11 +41,13 @@ export default {
     color: #eee;
   }
 
-  .fade-enter-active, .fade-leave-active {
+  .pop-enter-active, .pop-leave-active {
     transition: opacity 0.3s ease-out;
+    transition: transform 0.3s ease-out;
   }
 
-  .fade-enter, .fade-leave-to {
+  .pop-enter, .pop-leave-to {
     opacity: 0;
+    transform: scale(0.3, 1)
   }
 </style>
