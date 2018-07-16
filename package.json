@@ -13,6 +13,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "chance": "^1.0.16",
     "firebase": "^5.1.0",
     "moment": "^2.22.2",
     "npm": "^6.2.0",
