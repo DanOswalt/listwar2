@@ -1,23 +1,23 @@
 <template lang="html">
   <div class="thumbnail hoverable">
     <div class="card white">
-      <i @click="deleteList" class="material-icons right grey-text remove thumbnail-action">highlight_off</i>
+      <i @click="deleteList" class="material-icons right grey-text remove thumbnail-action hoverable">highlight_off</i>
       <div class="card-content grey-text text-lighten-2">
         <h5 class="title center">{{ list.title }}</h5>
-        <pre class="center-align grey-text">created by <span class="orange-text text-darken-4">{{ user.username }}</span> <span class="grey-text">{{ moment(list.createdOn).fromNow() }}</span></pre>
+        <pre class="center-align grey-text">created by <span class="orange-text text-darken-4">{{ user.username }}</span> <span class="grey-text">{{ $moment(list.createdOn).fromNow() }}</span></pre>
         <ul class="list-entries collection">
           <li class="list-entry collection-item grey-text text-lighten-2 teal" v-for="(entry, index) in list.entries" :key="index">{{ entry.value }}</li>
         </ul>
         <br>
         <div class="row actions">
           <ul class="actions-menu">
-            <li class="col s4 center">
+            <li class="col s4 center hoverable">
               <i @click="goToWar(user, list)" class="material-icons grey-text thumbnail-action">play_circle_outline</i>
             </li>
-            <li class="col s4 center">
+            <li class="col s4 center hoverable">
               <i class="material-icons grey-text thumbnail-action">content_copy</i>
             </li>
-            <li class="col s4 center">
+            <li class="col s4 center hoverable">
               <i class="material-icons grey-text thumbnail-action">share</i>
             </li>
           </ul>

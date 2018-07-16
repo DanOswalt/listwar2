@@ -6,12 +6,14 @@ import router from './router'
 import firebase from 'firebase'
 import moment from 'moment'
 import VueVisible from 'vue-visible'
+import Chance from 'chance'
 
 Vue.use(VueVisible)
 
 Vue.config.productionTip = false
 
-Vue.prototype.moment = moment
+Vue.prototype.$moment = moment
+Vue.prototype.$chance = new Chance()
 
 let app = null
 

@@ -53,7 +53,7 @@
                       <li v-for="(entry, index) in entries"
                           :key="index"
                           class="collection-item white-text"
-                          :class="entryClasses">{{ entry }}
+                          :class="entryClasses">{{ entry.value }}
                           <i v-if=!entriesSubmitted @click="removeEntry(index)" class="material-icons right remove grey-text text-darken-2">highlight_off</i>
                       </li>
                     </ul>

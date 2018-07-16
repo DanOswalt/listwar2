@@ -20,7 +20,6 @@
         </div>
       </div>
     </section>
-  
   </div>
 </template>
 
@@ -36,11 +35,20 @@ export default {
       creator: this.$route.params.creator,
       title: this.$route.params.title,
       user: this.$route.params.user,
+      schedule: [],
       status: 'intro',
-      results: null,
-      hero: null,
+      listwar: {
+        final: null,
+        dateCompleted: null,
+        endPoint: `${this.creator}/${this.title}`,
+        title: this.title,
+        completedBy: null,
+        listId: null,
+        public: false
+      },
+      hero: { value: '' },
       heroIndex: null,
-      villain: null,
+      villain: { value: '' },
       villainIndex: null,
       winner: null
     }
@@ -51,30 +59,27 @@ export default {
     },
     startWar () {
       this.status = 'warring'
-      this.results = this.list.entries.slice()
-      this.results.forEach(entry => {
-        entry.points = 0
-      })
-      this.createSchedule()
       this.nextBattle()
     },
     pickWinner (index) {
       this.winner = index
-      this.results[this.winner].points += 1
+      this.listwar.results[this.winner].points += 1
       this.nextBattle()
     },
     createSchedule () {
-      // randomize order and position
-      this.schedule = [
-        [0, 1],
-        [0, 2],
-        [0, 3],
-        [1, 2],
-        [1, 3],
-        [2, 3]
-      ]
+      const n = this.list.entries.length
+
+      for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j < n; j++) {
+          const matchIndices = [i, j]
+          const shuffled = this.$chance.shuffle(matchIndices)
+          this.schedule.push(shuffled)
+        }
+      }
+      this.schedule = this.$chance.shuffle(this.schedule)
     },
-    nextBattle() {
+    nextBattle () {
+      console.log('schedule', this.schedule)
       if (this.schedule.length > 0) {
         this.battle = this.schedule.pop()
         this.heroIndex = this.battle[0]
@@ -82,31 +87,40 @@ export default {
         this.hero = { value: this.list.entries[this.heroIndex].value, index: this.heroIndex }
         this.villain = { value: this.list.entries[this.villainIndex].value, index: this.villainIndex }
       } else {
-        this.results.sort((a, b) => {
-          return b.points - a.points
-        })
-        console.log('all done', this.results)
+        this.finish()
       }
+    },
+    finish () {
+      this.status = 'complete'
+      this.listwar.results.sort((a, b) => {
+        return b.points - a.points
+      })
+      console.log('all done', this.listwar)
     }
   },
-  created () {
-    console.log('list:', this.list)
-    console.log('creator:', this.creator)
-    console.log('title:', this.title)
-    console.log('current user:', this.user)
+  mounted () {
+    // will need to check if completed is true. if so, skip listwar, just show listwars? or, shouldn't
+    // go to this screen... if user visits this url, what should happen?
+    this.listwar.results = this.list.entries.map(entry => {
+      return {
+        value: entry.value,
+        points: 0
+      }
+    })
 
     if (!this.list) {
       // if no list is defined, look for the username and list
       // need to fetch list by creator and list name if coming from url
       // no current user needed until saving at the end; anon
-      
     }
+
+    this.createSchedule()
   }
 }
 </script>
 
 <style lang="css">
-  .war {
+  .listwar {
     height: 100vh;
     margin-top: 90px;
     background-color: #333;
