@@ -121,6 +121,7 @@ export default {
 
 <style lang="css">
   .listwar {
+    
     height: 100vh;
     margin-top: 90px;
     background-color: #333;
