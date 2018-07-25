@@ -59,7 +59,8 @@ export default {
                 ref.set({
                   username: this.username,
                   userId: cred.user.uid,
-                  access: []
+                  access: [],
+                  results: {}
                 })
               })
               .then(() => {

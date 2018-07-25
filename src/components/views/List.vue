@@ -106,7 +106,7 @@ export default {
       this.completed = this.list.completedBy.includes(this.user.userId)
       if(this.completed) {
         this.status = 'complete'
-        // this.result = this.user.results.indexOf()
+        this.result = this.user.results[this.listId]
       }
     },
     startWar () {
@@ -116,11 +116,7 @@ export default {
     createEmptyResult () {
       this.result = {
         timestamp: null,
-        title: this.title,
-        completedBy: null,
         listId: this.list.id,
-        public: false,
-        completed: false,
         entries: this.list.entries.map((entry, index) => {
           return {
             value: entry.value,
@@ -174,7 +170,7 @@ export default {
 
       if (this.user.username !== 'anonymous') {
         this.list.completedBy.push(this.user.userId)
-        this.user.results.push(this.result)
+        this.user.results[this.listId] = this.result
         db.collection('lists').doc(this.listId).set(this.list)
         db.collection('users').doc(this.user.username).set(this.user)
       }
