@@ -12,7 +12,7 @@
         <div class="row actions">
           <ul class="actions-menu">
             <li class="col s4 center hoverable">
-              <i @click="goToWar(user, list)" class="material-icons grey-text thumbnail-action">play_circle_outline</i>
+              <i @click="goToList(user, list)" class="material-icons grey-text thumbnail-action">play_circle_outline</i>
             </li>
             <li class="col s4 center hoverable">
               <i class="material-icons grey-text thumbnail-action">content_copy</i>
@@ -38,7 +38,7 @@ export default {
   ],
   data () {
     return {
-      warParams: {
+      params: {
         creator: this.list.creatorUsername,
         title: this.list.title,
         list: this.list,
@@ -55,8 +55,8 @@ export default {
         // just remove from accessors array, leave as creator, in case other have it
       })
     },
-    goToWar () {
-      this.$router.push({ name: 'War', params: this.warParams })
+    goToList () {
+      this.$router.push({ name: 'List', params: this.params })
     }
   }
 }

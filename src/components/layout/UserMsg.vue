@@ -26,6 +26,7 @@ export default {
     margin: 0 auto;
     color: #eee;
     font-size: 1.2em;
+    font-family: courier;
   }
 
   .info {

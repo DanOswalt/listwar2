@@ -1,10 +1,10 @@
 <template lang="html">
-  <div class="war container">
+  <div class="list-view container">
     <header>
       <h3 class="title center grey-text text-lighten-2">War!</h3>
     </header>
 
-    <section v-if="status === 'intro'" class="war-intro container">
+    <section v-show="status === 'intro'" class="war-intro container">
       <div class="row">
         <div class="col s12 m8 offset-m2">
           <button @click="startWar" class="btn-large">go</button>
@@ -12,23 +12,28 @@
       </div>
     </section>
 
-    <section v-if="status === 'warring'" class="war-box container">
+    <section v-show="status === 'warring'" class="war-box container">
       <div class="row">
         <div class="col s12 m8 offset-m2">
-          <button @click="pickWinner(heroIndex)" class="btn-large">{{ hero.value }}</button>
-          <button @click="pickWinner(villainIndex)" class="btn-large">{{ villain.value }}</button>
+          <button @click="pickWinner(heroIndex, villainIndex)" class="btn-large">{{ hero.value }}</button>
+          <button @click="pickWinner(villainIndex, heroIndex)" class="btn-large">{{ villain.value }}</button>
         </div>
       </div>
+    </section>
+
+    <section v-show="status === 'complete'" class="results container">
+      <p class="white-text">{{ this.result }}</p>
+      <button @click="result.public = !result.public">Make result public?</button>
     </section>
   </div>
 </template>
 
 <script>
 // import firebase from 'firebase'
-// import db from '@/firebase/init'
+import db from '@/firebase/init'
 
 export default {
-  name: 'War',
+  name: 'List',
   data () {
     return {
       list: this.$route.params.list,
@@ -37,15 +42,7 @@ export default {
       user: this.$route.params.user,
       schedule: [],
       status: 'intro',
-      listwar: {
-        final: null,
-        dateCompleted: null,
-        endPoint: `${this.creator}/${this.title}`,
-        title: this.title,
-        completedBy: null,
-        listId: null,
-        public: false
-      },
+      result: null,
       hero: { value: '' },
       heroIndex: null,
       villain: { value: '' },
@@ -61,9 +58,28 @@ export default {
       this.status = 'warring'
       this.nextBattle()
     },
-    pickWinner (index) {
-      this.winner = index
-      this.listwar.results[this.winner].points += 1
+    createEmptyResult () {
+      this.result = {
+        timestamp: null,
+        title: this.title,
+        completedBy: null,
+        listId: this.list.id,
+        public: false,
+        completed: false,
+        entries: this.list.entries.map((entry, index) => {
+          return {
+            value: entry.value,
+            points: 0,
+            id: index,
+            beats: [],
+            rank: null
+          }
+        })
+      }
+    },
+    pickWinner (winnerIndex, loserIndex) {
+      this.result.entries[winnerIndex].points += 1
+      this.result.entries[winnerIndex].beats.push(loserIndex)
       this.nextBattle()
     },
     createSchedule () {
@@ -79,7 +95,6 @@ export default {
       this.schedule = this.$chance.shuffle(this.schedule)
     },
     nextBattle () {
-      console.log('schedule', this.schedule)
       if (this.schedule.length > 0) {
         this.battle = this.schedule.pop()
         this.heroIndex = this.battle[0]
@@ -91,36 +106,37 @@ export default {
       }
     },
     finish () {
+      // create the finished result
+      // append result to list if user is not anonymous
+      // 
       this.status = 'complete'
-      this.listwar.results.sort((a, b) => {
+      this.result.completed = true
+      this.result.completedBy = this.user.userId
+      this.result.timestamp = Date.now()
+      this.result.entries.sort((a, b) => {
         return b.points - a.points
       })
-      console.log('all done', this.listwar)
+      this.result.entries.forEach((entry, index) => {
+        entry.rank = index + 1
+      })
+
+
+
+      // work on tiebreaks later
+      console.log('all done', this.result)
     }
   },
   mounted () {
-    // will need to check if completed is true. if so, skip listwar, just show listwars? or, shouldn't
-    // go to this screen... if user visits this url, what should happen?
-    this.listwar.results = this.list.entries.map(entry => {
-      return {
-        value: entry.value,
-        points: 0
-      }
-    })
-
-    if (!this.list) {
-      // if no list is defined, look for the username and list
-      // need to fetch list by creator and list name if coming from url
-      // no current user needed until saving at the end; anon
-    }
+    // look for currentuser
 
     this.createSchedule()
+    this.createEmptyResult()
   }
 }
 </script>
 
 <style lang="css">
-  .listwar {
+  .list-view {
     height: 100vh;
     margin-top: 90px;
     background-color: #333;

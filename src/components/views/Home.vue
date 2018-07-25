@@ -18,18 +18,20 @@
             </div>
           </li>
         </ul>
+        <div v-else-if="user.userId">
+          <div class="progress">
+            <div class="indeterminate"></div>
+          </div>
+        </div>
         <div v-else>
-          <!-- <blockquote class="introduction">
+          <blockquote class="introduction">
             <ul class="grey-text">
               <li><span class="description deep-orange-text">Create</span> a list of things.</li>
               <li><span class="description deep-orange-text">Battle</span> those things 1 v 1.</li>
               <li><span class="description deep-orange-text">Discover</span>  the true pecking order.</li>
               <li><span class="description teal-text darken-2">Share and compare.</span></li>
             </ul>
-          </blockquote> -->
-          <div class="progress">
-            <div class="indeterminate"></div>
-          </div>
+          </blockquote>
         </div>
       </div>
     </section>

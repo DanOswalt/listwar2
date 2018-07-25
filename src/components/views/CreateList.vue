@@ -101,7 +101,8 @@ export default {
       msg: {
         content: '',
         type: 'hide'
-      }
+      },
+      list: null
     }
   },
   computed: {
@@ -161,40 +162,61 @@ export default {
       this.$nextTick(() => this.$refs.title.focus()) // this works, but why exactly?
     },
     createList () {
-      console.log('user before update', this.user)
-      db.collection('lists')
-        .add({
-          title: this.title,
-          entries: this.entries,
-          createdOn: Date.now(),
-          creatorId: this.user.userId,
-          creatorUsername: this.user.username
+      this.list = {
+        title: this.title,
+        entries: this.entries,
+        createdOn: Date.now(),
+        creatorId: this.user.userId,
+        creatorUsername: this.user.username
+      }
+
+      // anonymous users go straight to war page without saving list
+      if (this.username === 'anonymous') {
+        this.$router.push({ 
+          name: 'List',  
+          params: {
+            creator: this.user.username,
+            title: this.list.title,
+            list: this.list,
+            user: this.user
+          }
         })
-        .then(listRef => {
-          this.user.access.push(listRef.id)
-          db.collection('users').where('userId', '==', this.user.userId).get()
-            .then(snapshot => {
-              snapshot.forEach(doc => {
-                db.collection('users').doc(doc.id)
-                  .update(this.user)
-                  .then(() => {
-                    this.$router.push({ name: 'Home' })
-                  })
-                  .catch(err => {
-                    this.userMsg(err.message, 'error')
-                  })
+
+      // logged in users go back to home page after saving
+      } else { 
+        db.collection('lists')
+          .add(this.list)
+          .then(listRef => {
+            this.user.access.push(listRef.id)
+            db.collection('users').where('userId', '==', this.user.userId).get()
+              .then(snapshot => {
+                snapshot.forEach(doc => {
+                  db.collection('users').doc(doc.id)
+                    .update(this.user)
+                    .then(() => {
+                      this.$router.push({ name: 'Home' })
+                    })
+                    .catch(err => {
+                      this.userMsg(err.message, 'error')
+                    })
+                })
               })
-            })
-            .catch(err => {
-              this.userMsg(err.message, 'error')
-            })
-        })
+              .catch(err => {
+                this.userMsg(err.message, 'error')
+              })
+          })
+      }
     }
   },
   created () {
-    // can't just land at this route if not logged in
+    // if no user logged in, create null user
     if (!this.$route.params.user) {
-      this.$router.push({ name: 'Home' })
+      this.user = {
+        userId: null,
+        username: 'anonymous',
+        access: [],
+        lists: []
+      }
     }
   }
 }

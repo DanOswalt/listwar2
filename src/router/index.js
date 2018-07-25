@@ -4,7 +4,7 @@ import Home from '@/components/views/Home'
 import CreateList from '@/components/views/CreateList'
 import Register from '@/components/auth/Register'
 import Login from '@/components/auth/Login'
-import War from '@/components/views/War'
+import List from '@/components/views/List'
 
 Vue.use(Router)
 
@@ -32,9 +32,9 @@ export default new Router({
       component: Login
     },
     {
-      path: '/war/:creator/:title',
-      name: 'War',
-      component: War
+      path: '/list/:creator/:title',
+      name: 'List',
+      component: List
     }
   ]
 })
