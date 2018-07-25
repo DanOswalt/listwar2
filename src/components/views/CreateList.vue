@@ -116,7 +116,9 @@ export default {
       return count
     },
     entryIsUnique () {
-      return !this.entries.includes(this.newEntry)
+      return !this.entries.find(entry => {
+        return entry.value === this.newEntry
+      })
     },
     entryClasses () {
       return {
@@ -156,7 +158,7 @@ export default {
       this.entries.splice(index, 1)
     },
     submitEntries () {
-      this.userMsg('Enter a title!')
+      this.userMsg('Enter a title!', 'info')
       this.entriesSubmitted = true
       this.$nextTick(() => this.$refs.title.focus()) // this works, but why exactly?
     },
@@ -175,7 +177,7 @@ export default {
         this.$router.push({
           name: 'List',
           params: {
-            creator: this.user.username,
+            listId: 'anon',
             title: this.list.title,
             list: this.list,
             user: this.user

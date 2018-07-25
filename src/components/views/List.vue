@@ -27,7 +27,6 @@
 
     <section v-show="status === 'complete'" class="results container">
       <p class="white-text">{{ this.result }}</p>
-      <button @click="result.public = !result.public">Make result public?</button>
     </section>
   </div>
 </template>
@@ -104,7 +103,7 @@ export default {
     },
     checkIfCompleted () {
       this.completed = this.list.completedBy.includes(this.user.userId)
-      if(this.completed) {
+      if (this.completed) {
         this.status = 'complete'
         this.result = this.user.results[this.listId]
       }
