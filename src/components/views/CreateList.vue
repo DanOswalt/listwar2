@@ -63,10 +63,9 @@
                 <!-- submit button row -->
                 <div class="row center-align">
                   <div v-if="!entriesSubmitted" class="col s12">
-                    <div v-if="entriesCount >= 4" @click.prevent="submitEntries" class="btn teal darken-4">
+                    <div v-show="entriesCount >= 4" @click.prevent="submitEntries" class="btn teal darken-4">
                       <i class="material-icons right">arrow_right</i>{{ entriesCount }} entries, {{ roundCount }} rounds
                     </div>
-                    <div v-else class="btn disabled">Enter more to submit</div>
                   </div>
 
                   <div v-if="entriesSubmitted" class="col s12">
@@ -167,13 +166,14 @@ export default {
         entries: this.entries,
         createdOn: Date.now(),
         creatorId: this.user.userId,
-        creatorUsername: this.user.username
+        creatorUsername: this.user.username,
+        completedBy: []
       }
 
       // anonymous users go straight to war page without saving list
       if (this.username === 'anonymous') {
-        this.$router.push({ 
-          name: 'List',  
+        this.$router.push({
+          name: 'List',
           params: {
             creator: this.user.username,
             title: this.list.title,
@@ -183,7 +183,7 @@ export default {
         })
 
       // logged in users go back to home page after saving
-      } else { 
+      } else {
         db.collection('lists')
           .add(this.list)
           .then(listRef => {
@@ -265,22 +265,3 @@ export default {
   }
 
 </style>
-
-/*
-  notes
-
-  -do validation
-    -limit to 10-12 items?
-
-  -on submit
-    -create list object
-    -need a list class (proper place for this?)
-    -attach new list object to user
-    -new list will be accessible via url by anyone with link :username/:listname
-
-  -change route to include userid param
-    -pass as prop or route param?
-
-  -styles
-    -punch up with css transitions
- */

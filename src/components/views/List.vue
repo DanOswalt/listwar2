@@ -4,6 +4,10 @@
       <h3 class="title center grey-text text-lighten-2">War!</h3>
     </header>
 
+    <section class="msg-box">
+      <user-msg :msg="msg"></user-msg>
+    </section>
+
     <section v-show="status === 'intro'" class="war-intro container">
       <div class="row">
         <div class="col s12 m8 offset-m2">
@@ -29,30 +33,81 @@
 </template>
 
 <script>
-// import firebase from 'firebase'
+import UserMsg from '@/components/layout/UserMsg.vue'
+import firebase from 'firebase'
 import db from '@/firebase/init'
 
 export default {
   name: 'List',
+  components: {
+    UserMsg
+  },
   data () {
     return {
       list: this.$route.params.list,
-      creator: this.$route.params.creator,
+      listId: this.$route.params.listid,
       title: this.$route.params.title,
       user: this.$route.params.user,
+      msg: {
+        content: '',
+        type: 'hide'
+      },
+      completed: false,
       schedule: [],
       status: 'intro',
       result: null,
       hero: { value: '' },
       heroIndex: null,
       villain: { value: '' },
-      villainIndex: null,
-      winner: null
+      villainIndex: null
     }
   },
   methods: {
     userMsg (content, type) {
       this.msg = content ? { content, type } : { content: '', type: 'hide' }
+    },
+    checkForCurrentUser () {
+      let authedUser = firebase.auth().currentUser
+
+      if (authedUser) {
+        db.collection('users').where('userId', '==', authedUser.uid).get()
+          .then(snapshot => {
+            snapshot.forEach(doc => {
+              db.collection('users').doc(doc.id).get()
+                .then(doc => {
+                  this.user = doc.data()
+                  this.checkUserAccess()
+                })
+                .catch(err => {
+                  this.userMsg(err.message, 'error')
+                })
+            })
+          })
+      }
+    },
+    checkUserAccess () {
+      if (this.user.access.includes(this.listId)) {
+        this.checkIfCompleted()
+        if (this.completed) {
+          this.status = 'complete'
+        } else {
+          this.createSchedule()
+          this.createEmptyResult()
+          this.userMsg()
+        }
+      } else {
+        this.blockAccess()
+      }
+    },
+    checkForListExistence () {
+      return db.collection('lists').doc(this.listId).get()
+    },
+    checkIfCompleted () {
+      this.completed = this.list.completedBy.includes(this.user.userId)
+      if(this.completed) {
+        this.status = 'complete'
+        // this.result = this.user.results.indexOf()
+      }
     },
     startWar () {
       this.status = 'warring'
@@ -106,9 +161,6 @@ export default {
       }
     },
     finish () {
-      // create the finished result
-      // append result to list if user is not anonymous
-      // 
       this.status = 'complete'
       this.result.completed = true
       this.result.completedBy = this.user.userId
@@ -120,17 +172,49 @@ export default {
         entry.rank = index + 1
       })
 
-
+      if (this.user.username !== 'anonymous') {
+        this.list.completedBy.push(this.user.userId)
+        this.user.results.push(this.result)
+        db.collection('lists').doc(this.listId).set(this.list)
+        db.collection('users').doc(this.user.username).set(this.user)
+      }
 
       // work on tiebreaks later
       console.log('all done', this.result)
+    },
+    blockAccess () {
+      this.status = 'no list'
+      this.userMsg('Sorry, list is either not shared or could not be found', 'error')
     }
   },
   mounted () {
-    // look for currentuser
+    /* user can get here 2 ways:
+      1. clicking on the list thumbnail battle button, where list and user are authorized already
+      2. directly via the url (if shared or reloaded)
+    */
 
-    this.createSchedule()
-    this.createEmptyResult()
+    if (!this.list) {
+      this.checkForListExistence()
+        .then(doc => {
+          if (doc.exists) {
+            this.list = doc.data()
+            // if the list had to be loaded this way, we need to check if they have access
+            this.checkForCurrentUser()
+          } else {
+            this.blockAccess()
+          }
+        })
+    } else {
+      // if the list is already populated, the user is already authorized
+      this.checkIfCompleted()
+
+      if (!this.completed) {
+        this.createSchedule()
+        this.createEmptyResult()
+      } else {
+        this.status = 'complete'
+      }
+    }
   }
 }
 </script>

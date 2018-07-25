@@ -39,7 +39,7 @@ export default {
   data () {
     return {
       params: {
-        creator: this.list.creatorUsername,
+        listid: this.list.id,
         title: this.list.title,
         list: this.list,
         user: this.user

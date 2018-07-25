@@ -32,7 +32,7 @@ export default new Router({
       component: Login
     },
     {
-      path: '/list/:creator/:title',
+      path: '/list/:listid/:title',
       name: 'List',
       component: List
     }
