@@ -1,10 +1,11 @@
 <template lang="html">
   <div class="list-view container">
     <header>
-      <h3 class="title center grey-text text-lighten-2">War!</h3>
+      <h3 v-if="!completed" class="title center grey-text text-lighten-2">War!</h3>
+      <h3 v-else class="title center grey-text text-lighten-2">Results for <span class="deep-orange-text text-lighten-1">{{ title }}</span></h3>
     </header>
 
-    <section class="msg-box">
+    <section class="msg-box center-align">
       <user-msg :msg="msg"></user-msg>
     </section>
 

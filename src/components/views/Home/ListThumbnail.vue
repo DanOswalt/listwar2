@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="thumbnail hoverable">
-    <div class="card white">
+    <div class="card">
       <i @click="deleteList" class="material-icons right grey-text remove thumbnail-action hoverable">highlight_off</i>
       <div class="card-content grey-text text-lighten-2">
         <h5 class="title center">{{ list.title }}</h5>
@@ -11,10 +11,10 @@
         <br>
         <div class="row actions">
           <ul class="actions-menu">
-            <li class="col s4 center hoverable">
-              <i @click="goToList(user, list)" class="material-icons grey-text thumbnail-action">play_circle_outline</i>
+            <li class="col s4 center hoverable thumbnail-action">
+              <i @click="goToList(user, list)" class="material-icons grey-text">play_circle_outline</i>
             </li>
-            <li class="col s4 center hoverable">
+            <li class="col s4 center hoverable thumbnail-action">
               <i class="material-icons grey-text thumbnail-action">content_copy</i>
             </li>
             <li class="col s4 center hoverable">
@@ -69,15 +69,15 @@ export default {
   }
 
   .thumbnail .card {
-    border-radius: 3%;
+    /* border-radius: 3%; */
   }
 
   .thumbnail .card-content {
-    background: #555;
+    background: #333;
   }
 
   .thumbnail .collection {
-    border-radius: 3%;
+    /* border-radius: 3%; */
   }
 
   .thumbnail .remove {

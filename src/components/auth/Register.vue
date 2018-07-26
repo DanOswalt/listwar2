@@ -1,8 +1,8 @@
 <template lang="html">
   <div class="register container row">
     <div class="col s12 m6 offset-m3">
-      <form @submit.prevent="register" class="card-panel teal-text text-darken-4">
-        <h4 class="card-title center">Sign Up to save and share lists</h4>
+      <form @submit.prevent="register" class="card-panel">
+        <h4 class="card-title center">Sign up to save and share lists</h4>
         <div class="input-field">
           <label for="email">Email:</label>
           <input type="email" name="email" v-model="email">
@@ -83,6 +83,12 @@ export default {
 
 <style lang="css">
   .register {
+    font-family: courier;
+    color: white;
     margin-top: 90px;
+  }
+
+  .register .card-panel {
+    background: #333;
   }
 </style>

@@ -11,7 +11,7 @@
       </div>
     </header>
 
-    <section class="msg-box">
+    <section class="msg-box center-align">
       <user-msg :msg="msg"></user-msg>
     </section>
 
@@ -72,6 +72,7 @@
                     <button class="btn orange darken-4" :class="{ disabled: !title }" @click="createList">Save List</button>
                   </div>
                 </div>
+
               </div>
             </div>
           </li>
@@ -249,12 +250,11 @@ export default {
   }
 
   .createlist .card {
-    background: #555;
-    border-radius: 3%;
+    background: #333;
   }
 
   .createlist .card-content {
-    background: #555;
+    /* background: #555; */
   }
 
   .createlist .collection {

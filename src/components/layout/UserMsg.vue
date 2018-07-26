@@ -1,6 +1,6 @@
 <template>
   <transition name="pop">
-    <div class="user-msg z-depth-2 center-align" :class="msg.type">
+    <div class="user-msg center-align" :class="msg.type">
       {{ msg.content }}
     </div>
   </transition>
@@ -20,17 +20,18 @@ export default {
 
 <style>
   .user-msg {
-    max-width: 50%;
+    display: inline-block;
     padding: 5px 10px;
     border-radius: 5px;
-    margin: 0 auto;
+    margin: 20px auto;
     color: #eee;
     font-size: 1.2em;
     font-family: courier;
   }
 
   .info {
-    background-color: teal;
+    background-color: #333;
+    color: #ff7043;
   }
 
   .warn {

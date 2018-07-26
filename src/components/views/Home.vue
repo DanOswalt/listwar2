@@ -4,7 +4,7 @@
       <h3 class="title center grey-text text-lighten-2">Your Lists</h3>
     </header>
 
-    <section class="msg-box">
+    <section class="msg-box center">
       <user-msg :msg="msg"></user-msg>
     </section>
 
@@ -104,15 +104,13 @@ export default {
               snapshot.forEach(doc => {
                 let list = doc.data()
                 list.id = doc.id
-                // list.entries.sort((a, b) => {
-                //   const timeA = parseInt(a)
-                //   const timeB = parseInt(b)
-                //   return timeA - timeB
-                // })
                 if (this.user.access.includes(list.id)) {
                   this.user.lists.push(list)
                   this.userMsg(`Hello ${this.user.username}!`, 'info')
                 }
+              })
+              this.user.lists.sort((a, b) => {
+                return b.createdOn - a.createdOn
               })
             })
             .catch(err => {
@@ -145,6 +143,7 @@ export default {
   .home .introduction {
     margin: auto 0;
     font-size: 1.8em;
+    font-family: courier;
   }
 
   .home .description {

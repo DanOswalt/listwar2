@@ -1,8 +1,8 @@
 <template lang="html">
   <div class="login container row">
     <div class="col s12 m6 offset-m3">
-      <form @submit.prevent="login" class="card-panel teal-text text-darken-4">
-      <h4 class="card-title center">Log In</h4>
+      <form @submit.prevent="login" class="card-panel">
+        <h4 class="card-title center">Log In</h4>
         <div class="input-field">
           <label for="email">Email:</label>
           <input type="email" name="email" v-model="email" autofocus>
@@ -56,6 +56,12 @@ export default {
 
 <style lang="css">
   .login {
+    font-family: courier;
+    color: white;
     margin-top: 90px;
+  }
+
+  .login .card-panel {
+    background: #333;
   }
 </style>
