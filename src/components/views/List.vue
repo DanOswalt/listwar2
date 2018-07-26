@@ -27,7 +27,10 @@
     </section>
 
     <section v-show="status === 'complete'" class="results container">
-      <p class="white-text">{{ this.result }}</p>
+      <ul>
+        <li v-for="(entry, index) in result.entries" :key="index" >{{ entry.rank }}. {{ entry.value }} <span class="right">{{ entry.points }} pts.</span></li>
+      </ul>
+      <p class="white-text">{{ result }}</p>
     </section>
   </div>
 </template>
@@ -55,7 +58,9 @@ export default {
       completed: false,
       schedule: [],
       status: 'intro',
-      result: null,
+      result: {
+        entries: []
+      },
       hero: { value: '' },
       heroIndex: null,
       villain: { value: '' },
@@ -220,5 +225,11 @@ export default {
     height: 100vh;
     margin-top: 90px;
     background-color: #333;
+  }
+
+  .list-view .results {
+    max-width: 50%;
+    font-family: courier;
+    color: orange;
   }
 </style>

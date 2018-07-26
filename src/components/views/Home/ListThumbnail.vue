@@ -17,8 +17,8 @@
             <li class="col s4 center hoverable thumbnail-action">
               <i class="material-icons grey-text thumbnail-action">content_copy</i>
             </li>
-            <li class="col s4 center hoverable">
-              <i class="material-icons grey-text thumbnail-action">share</i>
+            <li class="col s4 center hoverable thumbnail-action">
+              <i class="material-icons grey-text">share</i>
             </li>
           </ul>
         </div>
